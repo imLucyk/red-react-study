@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 function Header(props) {
   return (
     <header>
@@ -5,13 +7,13 @@ function Header(props) {
         RED
       </div>
       <div>
-        <a href="./index.html" id="menu-a-home" class="active"><span class="material-icons-outlined">home</span></a>
+        <NavLink to="home" className={({ isActive }) => isActive ? 'active' : ''}><span class="material-icons-outlined">home</span></NavLink>
       </div>
       <div>
-        <a href="./items.html" id="menu-a-items"><span class="material-icons-outlined">shopping_cart</span></a>
+        <NavLink to="items" className={({ isActive }) => isActive ? 'active' : ''}><span class="material-icons-outlined">shopping_cart</span></NavLink>
       </div>
       <div class="menu-groceries">
-        <a href="./groceries.html" id="menu-a-groceries"><span class="material-icons">kitchen</span></a>
+        <NavLink to="groceries" className={({ isActive }) => isActive ? 'active' : ''}><span class="material-icons">kitchen</span></NavLink>
         <div><span id="menu-groceries-counter">1</span></div>
       </div>
       <div class="empty"></div>
