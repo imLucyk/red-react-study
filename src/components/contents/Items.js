@@ -1,34 +1,34 @@
 function Items(props) {
   return (
     <article>
-      <form class="form-inputs">
+      <form className="form-inputs">
         <input type="text" name="name" placeholder="Create" />
-        <button class="button-create"><span class="material-icons">edit</span></button>
+        <button className="button-create"><span className="material-icons">edit</span></button>
       </form>
-      <div class="div-table">
+      <div className="div-table">
         <table>
           <thead>
             <tr>
               <th>Move</th>
               <th>
-                <span class="title-names">
+                <span className="title-names">
                   Name
-                  <span class="material-icons active">arrow_drop_up</span>
-                  <span class="material-icons">arrow_drop_down</span>
+                  <span className="material-icons active">arrow_drop_up</span>
+                  <span className="material-icons">arrow_drop_down</span>
                 </span>
               </th>
               <th>
-                <span class="title-names">
+                <span className="title-names">
                   Enter
-                  <span class="material-icons">arrow_drop_up</span>
-                  <span class="material-icons">arrow_drop_down</span>
+                  <span className="material-icons">arrow_drop_up</span>
+                  <span className="material-icons">arrow_drop_down</span>
                 </span>
               </th>
               <th>
-                <span class="title-names">
+                <span className="title-names">
                   Expire
-                  <span class="material-icons">arrow_drop_up</span>
-                  <span class="material-icons">arrow_drop_down</span>
+                  <span className="material-icons">arrow_drop_up</span>
+                  <span className="material-icons">arrow_drop_down</span>
                 </span>
               </th>
               <th>Del</th>
@@ -39,36 +39,36 @@ function Items(props) {
               <td><input type="checkbox" onchange="" /></td>
               <td>사과</td>
               <td>2021-01-01</td>
-              <td class="td-expire"><input type="date" value="2021-02-02" onchange="" /></td>
-              <td class="td-delete">
-                <button class="button-delete" onclick=""><span class="material-icons">delete</span></button>
+              <td className="td-expire"><input type="date" value="2021-02-02" onchange="" /></td>
+              <td className="td-delete">
+                <button className="button-delete" onclick=""><span className="material-icons">delete</span></button>
               </td>
             </tr>
             <tr>
               <td><input type="checkbox" onchange="" /></td>
               <td>바나나</td>
               <td>2021-01-01</td>
-              <td class="td-expire"><input type="date" value="2021-02-02" onchange="" /></td>
-              <td class="td-delete">
-                <button class="button-delete" onclick=""><span class="material-icons">delete</span></button>
+              <td className="td-expire"><input type="date" value="2021-02-02" onchange="" /></td>
+              <td className="td-delete">
+                <button className="button-delete" onclick=""><span className="material-icons">delete</span></button>
               </td>
             </tr>
             <tr>
               <td><input type="checkbox" onchange="" /></td>
               <td>딸기</td>
               <td>2021-01-01</td>
-              <td class="td-expire"><input type="date" value="2021-02-02" onchange="" /></td>
-              <td class="td-delete">
-                <button class="button-delete" onclick=""><span class="material-icons">delete</span></button>
+              <td className="td-expire"><input type="date" value="2021-02-02" onchange="" /></td>
+              <td className="td-delete">
+                <button className="button-delete" onclick=""><span className="material-icons">delete</span></button>
               </td>
             </tr>
             <tr>
               <td><input type="checkbox" onchange="" /></td>
               <td>키위</td>
               <td>2021-01-01</td>
-              <td class="td-expire"><input type="date" value="2021-02-02" onchange="" /></td>
-              <td class="td-delete">
-                <button class="button-delete" onclick=""><span class="material-icons">delete</span></button>
+              <td className="td-expire"><input type="date" value="2021-02-02" onchange="" /></td>
+              <td className="td-delete">
+                <button className="button-delete" onclick=""><span className="material-icons">delete</span></button>
               </td>
             </tr>
           </tbody>

@@ -3,24 +3,24 @@ import { NavLink } from 'react-router-dom';
 function Header(props) {
   return (
     <header>
-      <div class="logo">
+      <div className="logo">
         RED
       </div>
       <div>
-        <NavLink to="home" className={({ isActive }) => isActive ? 'active' : ''}><span class="material-icons-outlined">home</span></NavLink>
+        <NavLink to="home" className={({ isActive }) => isActive ? 'active' : ''}><span className="material-icons-outlined">home</span></NavLink>
       </div>
       <div>
-        <NavLink to="items" className={({ isActive }) => isActive ? 'active' : ''}><span class="material-icons-outlined">shopping_cart</span></NavLink>
+        <NavLink to="items" className={({ isActive }) => isActive ? 'active' : ''}><span className="material-icons-outlined">shopping_cart</span></NavLink>
       </div>
-      <div class="menu-groceries">
-        <NavLink to="groceries" className={({ isActive }) => isActive ? 'active' : ''}><span class="material-icons">kitchen</span></NavLink>
+      <div className="menu-groceries">
+        <NavLink to="groceries" className={({ isActive }) => isActive ? 'active' : ''}><span className="material-icons">kitchen</span></NavLink>
         <div><span id="menu-groceries-counter">1</span></div>
       </div>
-      <div class="empty"></div>
+      <div className="empty"></div>
       <div>
         <a href="#!" id="menu-a-account" onclick="accountToggle(); return false;">
-          <span class="material-icons-outlined">account_circle</span>
-          <ul class="account-menu">
+          <span className="material-icons-outlined">account_circle</span>
+          <ul className="account-menu">
             <li>Guest</li>
             <li>Login</li>
             <li>Hello 홍길동!</li>
