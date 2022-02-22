@@ -33,16 +33,19 @@ export default class ItemsStore {
     });
   }
   itemsRead() {
-    this.items = [{
-      name: '홍길동',
-      enter: '2022-01-01',
-      expire: '2022-01-07',
-    }, {
-      name: '춘향이',
-      enter: '2022-01-01',
-      expire: '2022-01-07',
-    }];
-    console.log('Done itemsRead', this.items);
+    axios.get('https://red-react-study-default-rtdb.firebaseio.com/items.json').then((response) => {
+      console.log('Done itemsRead', response);
+      const items = [];
+      for (const uid in response.data) {
+        const item = response.data[uid];
+        item.key = uid;
+        items.push(item);
+      }
+      console.log(items)
+      this.items = items;
+    }).catch((error) => {
+      axiosError(error);
+    });
   }
   itemsDelete(index) {
     this.items.splice(index, 1);
