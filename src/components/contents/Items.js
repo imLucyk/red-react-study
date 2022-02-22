@@ -47,14 +47,17 @@ function Items(props) {
             </tr>
           </thead>
           <tbody>
-          {items.map((item, index) => (
-            <tr key={index}>
+          {items.map((item) => (
+            <tr key={item.key}>
               <td><input type="checkbox" onChange={()=>{}} /></td>
               <td>{item.name}</td>
               <td>{item.enter}</td>
-              <td className="td-expire"><input type="date" value={item.expire} onChange={(event) => {item.expire = event.target.value; itemsStore.itemsUpdate(index, item)}} /></td>
+              <td className="td-expire"><input type="date"
+                value={item.expire}
+                onChange={(event) => {item.expire = event.target.value; itemsStore.itemsUpdate(item.key, item)}}
+              /></td>
               <td className="td-delete">
-                <button className="button-delete" onClick={() => itemsStore.itemsDelete(index)}><span className="material-icons">delete</span></button>
+                <button className="button-delete" onClick={() => itemsStore.itemsDelete(item.key)}><span className="material-icons">delete</span></button>
               </td>
             </tr>
           ))}
