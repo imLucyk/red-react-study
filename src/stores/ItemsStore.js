@@ -32,13 +32,13 @@ export default class ItemsStore {
       axiosError(error);
     });
   }
-  itemsRead() {
+  itemsRead() { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
     axios.get('https://red-react-study-default-rtdb.firebaseio.com/items.json').then((response) => {
       console.log('Done itemsRead', response);
       const items = [];
       for (const uid in response.data) {
         const item = response.data[uid];
-        item.key = uid;
+        item.key = uid; // uid가 빠져서 다시 넣어줌..
         items.push(item);
       }
       console.log(items)
@@ -47,9 +47,13 @@ export default class ItemsStore {
       axiosError(error);
     });
   }
-  itemsDelete(index) {
-    this.items.splice(index, 1);
-    console.log('Done itemsDelete', this.items);
+  itemsDelete(key) {
+    axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`).then((response) => {
+      console.log('Done itemsDelete', response);
+      this.itemsRead();
+    }).catch((error) => {
+      axiosError(error);
+    });
   }
   itemsUpdate(index, item) {
     this.items[index] = item;
