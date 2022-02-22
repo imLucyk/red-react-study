@@ -18,7 +18,7 @@ function Header(props) {
       </div>
       <div className="empty"></div>
       <div>
-        <a href="#!" id="menu-a-account" onclick="accountToggle(); return false;">
+        <a href="#!" id="menu-a-account" onClick={()=>{}}>
           <span className="material-icons-outlined">account_circle</span>
           <ul className="account-menu">
             <li>Guest</li>

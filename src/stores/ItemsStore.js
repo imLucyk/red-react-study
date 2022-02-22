@@ -26,6 +26,18 @@ export default class ItemsStore {
     });
     console.log('Done itemsCreate', this.items);
   }
+  itemsRead() {
+    this.items = [{
+      name: '홍길동',
+      enter: '2022-01-01',
+      expire: '2022-01-07',
+    }, {
+      name: '춘향이',
+      enter: '2022-01-01',
+      expire: '2022-01-07',
+    }];
+    console.log('Done itemsRead', this.items);
+  }
 }
 
 export const itemsStore = new ItemsStore();
