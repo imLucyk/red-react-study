@@ -52,7 +52,7 @@ function Items(props) {
               <td><input type="checkbox" onChange={()=>{}} /></td>
               <td>{item.name}</td>
               <td>{item.enter}</td>
-              <td className="td-expire"><input type="date" value={item.expire} onChange={()=>{}} /></td>
+              <td className="td-expire"><input type="date" value={item.expire} onChange={(event) => {item.expire = event.target.value; itemsStore.itemsUpdate(index, item)}} /></td>
               <td className="td-delete">
                 <button className="button-delete" onClick={() => itemsStore.itemsDelete(index)}><span className="material-icons">delete</span></button>
               </td>

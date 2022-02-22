@@ -42,6 +42,10 @@ export default class ItemsStore {
     this.items.splice(index, 1);
     console.log('Done itemsDelete', this.items);
   }
+  itemsUpdate(index, item) {
+    this.items[index] = item;
+    console.log('Done itemsUpdate', this.items);
+  }
 }
 
 export const itemsStore = new ItemsStore();
