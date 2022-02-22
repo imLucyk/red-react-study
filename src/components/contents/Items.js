@@ -54,7 +54,7 @@ function Items(props) {
               <td>{item.enter}</td>
               <td className="td-expire"><input type="date" value={item.expire} onChange={()=>{}} /></td>
               <td className="td-delete">
-                <button className="button-delete" onClick={()=>{}}><span className="material-icons">delete</span></button>
+                <button className="button-delete" onClick={() => itemsStore.itemsDelete(index)}><span className="material-icons">delete</span></button>
               </td>
             </tr>
           ))}

@@ -38,6 +38,10 @@ export default class ItemsStore {
     }];
     console.log('Done itemsRead', this.items);
   }
+  itemsDelete(index) {
+    this.items.splice(index, 1);
+    console.log('Done itemsDelete', this.items);
+  }
 }
 
 export const itemsStore = new ItemsStore();
