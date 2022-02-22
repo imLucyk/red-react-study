@@ -1,4 +1,5 @@
 import { configure, makeAutoObservable } from 'mobx';
+import moment from 'moment';
 
 configure({
   enforceActions: 'never',
@@ -20,8 +21,8 @@ export default class ItemsStore {
   itemsCreate() {
     this.items.push({
       name: this.item.name,
-      enter: this.item.enter,
-      expire: this.item.expire,
+      enter: moment().format('YYYY-MM-DD'),
+      expire: moment().add(7, 'days').format('YYYY-MM-DD'),
     });
     console.log('Done itemsCreate', this.items);
   }

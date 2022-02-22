@@ -6,7 +6,7 @@ function Items(props) {
   const { item } = itemsStore;
   return (
     <article>
-      <form className="form-inputs" onSubmit={(event) => {event.preventDefault(); console.log(event)}}>
+      <form className="form-inputs" onSubmit={(event) => {event.preventDefault(); itemsStore.itemsCreate()}}>
         <input type="text" name="name" placeholder="Create"
           value={item.name} onChange={(event) => {item.name = event.target.value}}
         />
