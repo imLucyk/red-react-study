@@ -1,5 +1,7 @@
 import { configure, makeAutoObservable } from 'mobx';
 import moment from 'moment';
+import axios from 'axios';
+import { axiosError } from './common.js';
 
 configure({
   enforceActions: 'never',
@@ -19,12 +21,16 @@ export default class ItemsStore {
   };
 
   itemsCreate() {
-    this.items.push({
+    axios.post('https://red-react-study-default-rtdb.firebaseio.com/items.json', {
       name: this.item.name,
       enter: moment().format('YYYY-MM-DD'),
       expire: moment().add(7, 'days').format('YYYY-MM-DD'),
+    }).then((response) => {
+      console.log('Done itemsCreate', response);
+      this.itemsRead();
+    }).catch((error) => {
+      axiosError(error);
     });
-    console.log('Done itemsCreate', this.items);
   }
   itemsRead() {
     this.items = [{
