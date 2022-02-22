@@ -55,9 +55,13 @@ export default class ItemsStore {
       axiosError(error);
     });
   }
-  itemsUpdate(index, item) {
-    this.items[index] = item;
-    console.log('Done itemsUpdate', this.items);
+  itemsUpdate(key, item) {
+    axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`, item).then((response) => {
+      console.log('Done itemsUpdate', response);
+      this.itemsRead();
+    }).catch((error) => {
+      axiosError(error);
+    });
   }
 }
 
