@@ -1,8 +1,15 @@
+import { inject, observer } from 'mobx-react';
+
 function Items(props) {
+  console.log(props)
+  const { itemsStore } = props;
+  const { item } = itemsStore;
   return (
     <article>
-      <form className="form-inputs">
-        <input type="text" name="name" placeholder="Create" />
+      <form className="form-inputs" onSubmit={(event) => {event.preventDefault(); console.log(event)}}>
+        <input type="text" name="name" placeholder="Create"
+          value={item.name} onChange={(event) => {item.name = event.target.value}}
+        />
         <button className="button-create"><span className="material-icons">edit</span></button>
       </form>
       <div className="div-table">
@@ -78,4 +85,4 @@ function Items(props) {
   )
 }
 
-export default Items;
+export default inject('itemsStore')(observer(Items));
