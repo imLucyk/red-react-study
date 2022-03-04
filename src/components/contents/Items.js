@@ -5,12 +5,16 @@ function Items(props) {
   console.log(props)
   const { itemsStore, groceriesStore } = props;
   const { items, item } = itemsStore;
-  const groceriesModify = function(event, item) {
+  const groceriesModify = async function(event, item) {
     console.log(event, item)
     if (event.target.checked) {
       // 아이템을 불려온다 = item
       // 그로서리스에 복붙한다
-      groceriesStore.groceriesUpdate(item.key, item);
+      await groceriesStore.groceriesUpdate(item.key, item, 'items');
+      alert('냉장고에 넣었습니다.');
+    } else {
+      await groceriesStore.groceriesDelete(item.key, 'items');
+      alert('취소 되었습니다.');
     }
   };
   useEffect(() => {

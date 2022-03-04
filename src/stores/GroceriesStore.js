@@ -47,21 +47,21 @@ export default class GroceriesStore {
       axiosError(error);
     });
   }
-  groceriesDelete(key) {
-    axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/groceries/${key}.json`).then((response) => {
+  groceriesDelete(key, from) {
+    return axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/groceries/${key}.json`).then((response) => {
       console.log('Done groceriesDelete', response);
-      this.groceriesRead();
-    }).catch((error) => {
-      axiosError(error);
+      if (from !== 'items') {
+        this.groceriesRead();
+      }
     });
   }
-  groceriesUpdate(key, grocery) {
-    axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/groceries/${key}.json`, grocery).then((response) => {
+  groceriesUpdate(key, grocery, from) {
+    return axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/groceries/${key}.json`, grocery).then((response) => {
       console.log('Done groceriesUpdate', response);
-      this.groceriesRead();
-    }).catch((error) => {
-      axiosError(error);
-    });
+      if (from !== 'items') {
+        this.groceriesRead();
+      }
+    })
   }
 }
 
