@@ -56,7 +56,7 @@ function Groceries(props) {
                 <button className="button-update" onClick={()=>{}}><span className="material-icons">edit_note</span></button>
               </td>
               <td className="td-delete">
-                <button className="button-delete" onClick={()=>{}}><span className="material-icons">delete</span></button>
+                <button className="button-delete" onClick={()=>{groceriesStore.groceriesDelete(grocery.key)}}><span className="material-icons">delete</span></button>
               </td>
             </tr>
            ))}
