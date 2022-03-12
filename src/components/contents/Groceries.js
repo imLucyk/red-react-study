@@ -14,7 +14,8 @@ function Groceries(props) {
     grocery && (groceriesStore.grocery = {
       name: grocery.name,
       enter: grocery.enter,
-      expire: grocery.expire
+      expire: grocery.expire,
+      key: grocery.key
     })
     document.body.classList.toggle('o-hidden');
     document.getElementsByClassName('modal-background')[0].classList.toggle('active');
@@ -116,8 +117,8 @@ function Groceries(props) {
             </tbody>
           </table>
           <div class="modal-footer">
-            <button class="button-close" type="button" onClick={() => modalToggle()}><span class="material-icons">close</span></button>
-            <button class="button-update" onClick="return false;"><span class="material-icons">edit_note</span></button>
+            <button class="button-close" onClick={event => {event.preventDefault(); modalToggle()}}><span class="material-icons">close</span></button>
+            <button class="button-update" onClick={event => {event.preventDefault(); groceriesStore.groceriesUpdate(grocery.key, grocery); modalToggle()}}><span class="material-icons">edit_note</span></button>
           </div>
         </form>
       </div>
