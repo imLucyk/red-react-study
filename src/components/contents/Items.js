@@ -1,8 +1,14 @@
 import { useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
+import { NavLink } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function Items(props) {
-  console.log(props)
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const orderByKey = searchParams.get('orderByKey') || '';
+  const orderByType = searchParams.get('orderByType') || '';
+  console.log(orderByKey, orderByType)
   const { itemsStore, groceriesStore } = props;
   const { items, item } = itemsStore;
   const groceriesModify = async function(event, item) {
@@ -21,6 +27,13 @@ function Items(props) {
     // useEffect는 html을 다 읽고 한번 호출됨.
     itemsStore.itemsRead();
   }, [itemsStore]);
+  const activeOrderBy = (key, type) => {
+    if (key === orderByKey && type === orderByType) {
+      return ' active';
+    } else {
+      return '';
+    }
+  }
   return (
     <article>
       <form className="form-inputs" onSubmit={(event) => {event.preventDefault(); itemsStore.itemsCreate()}}>
@@ -37,22 +50,22 @@ function Items(props) {
               <th>
                 <span className="title-names">
                   Name
-                  <span className="material-icons active">arrow_drop_up</span>
-                  <span className="material-icons">arrow_drop_down</span>
+                  <span className={`material-icons${activeOrderBy('name', 'asc')}`}><NavLink to={"?orderByKey=name&orderByType=asc"}>arrow_drop_up</NavLink></span>
+                  <span className={`material-icons${activeOrderBy('name', 'desc')}`}><NavLink to={"?orderByKey=name&orderByType=desc"}>arrow_drop_down</NavLink></span>
                 </span>
               </th>
               <th>
                 <span className="title-names">
                   Enter
-                  <span className="material-icons">arrow_drop_up</span>
-                  <span className="material-icons">arrow_drop_down</span>
+                  <span className={`material-icons${activeOrderBy('enter', 'asc')}`}><NavLink to={"?orderByKey=enter&orderByType=asc"}>arrow_drop_up</NavLink></span>
+                  <span className={`material-icons${activeOrderBy('enter', 'desc')}`}><NavLink to={"?orderByKey=enter&orderByType=desc"}>arrow_drop_down</NavLink></span>
                 </span>
               </th>
               <th>
                 <span className="title-names">
                   Expire
-                  <span className="material-icons">arrow_drop_up</span>
-                  <span className="material-icons">arrow_drop_down</span>
+                  <span className={`material-icons${activeOrderBy('expire', 'asc')}`}><NavLink to={"?orderByKey=expire&orderByType=asc"}>arrow_drop_up</NavLink></span>
+                  <span className={`material-icons${activeOrderBy('expire', 'desc')}`}><NavLink to={"?orderByKey=expire&orderByType=desc"}>arrow_drop_down</NavLink></span>
                 </span>
               </th>
               <th>Del</th>
