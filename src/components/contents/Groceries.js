@@ -1,14 +1,26 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Groceries(props) {
-  console.log(props)
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const spQ = searchParams.get('q') || '';
+  console.log(spQ, location);
+  
   const { groceriesStore } = props;
   const { groceries, grocery } = groceriesStore;
+  const [ q, setQ ] = useState(spQ);
+  // useEffect(() => {
+  //   // useEffect는 html을 다 읽고 한번 호출됨.
+  //   groceriesStore.groceriesRead('');
+  // }, [groceriesStore]);
   useEffect(() => {
-    // useEffect는 html을 다 읽고 한번 호출됨.
-    groceriesStore.groceriesRead();
-  }, [groceriesStore]);
+    console.log(spQ)
+    groceriesStore.groceriesRead(spQ);
+    setQ(spQ);
+  }, [groceriesStore, spQ]);
   const modalToggle = function(grocery) {
     console.log(grocery, groceriesStore.grocery)
     grocery && (groceriesStore.grocery = {
@@ -19,12 +31,17 @@ function Groceries(props) {
     })
     document.body.classList.toggle('o-hidden');
     document.getElementsByClassName('modal-background')[0].classList.toggle('active');
+  };
+  const groceriesSearch = function(event) {
+    event.preventDefault();
+    // groceriesStore.groceriesRead(q);
+    navigate(`/groceries?q=${q}`);
   }
   return (
     <>
       <article>
-        <form className="form-inputs">
-          <input type="text" name="q" placeholder="Search" />
+        <form className="form-inputs" onSubmit={(event) => groceriesSearch(event)}>
+          <input type="text" name="q" placeholder="Search" value={q} onChange={event => setQ(event.target.value)} />
           <button className="button-search"><span className="material-icons">search</span></button>
         </form>
         <div className="div-table">
@@ -76,10 +93,10 @@ function Groceries(props) {
           </table>
         </div>
       </article>
-      <div class="modal-background" onClick={() => modalToggle()}>
-        <form class="modal" onClick={event => event.stopPropagation()}> {/* onClick event가 부모로 전파되는 것을 방지한다 */}
-          <h3 class="modal-header">Edit</h3>
-          <table class="modal-table">
+      <div className="modal-background" onClick={() => modalToggle()}>
+        <form className="modal" onClick={event => event.stopPropagation()}> {/* onClick event가 부모로 전파되는 것을 방지한다 */}
+          <h3 className="modal-header">Edit</h3>
+          <table className="modal-table">
             <tbody>
               <tr>
                 <th>
@@ -116,9 +133,9 @@ function Groceries(props) {
               </tr>
             </tbody>
           </table>
-          <div class="modal-footer">
-            <button class="button-close" onClick={event => {event.preventDefault(); modalToggle()}}><span class="material-icons">close</span></button>
-            <button class="button-update" onClick={event => {event.preventDefault(); groceriesStore.groceriesUpdate(grocery.key, grocery); modalToggle()}}><span class="material-icons">edit_note</span></button>
+          <div className="modal-footer">
+            <button className="button-close" onClick={event => {event.preventDefault(); modalToggle()}}><span className="material-icons">close</span></button>
+            <button className="button-update" onClick={event => {event.preventDefault(); groceriesStore.groceriesUpdate(grocery.key, grocery); modalToggle()}}><span className="material-icons">edit_note</span></button>
           </div>
         </form>
       </div>

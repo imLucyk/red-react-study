@@ -32,14 +32,16 @@ export default class GroceriesStore {
       axiosError(error);
     });
   }
-  groceriesRead() { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
+  groceriesRead(q) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
     axios.get('https://red-react-study-default-rtdb.firebaseio.com/groceries.json').then((response) => {
       console.log('Done groceriesRead', response);
       const groceries = [];
       for (const uid in response.data) {
         const grocery = response.data[uid];
-        grocery.key = uid; // uid가 빠져서 다시 넣어줌..
-        groceries.push(grocery);
+        if (!q || grocery.name.indexOf(q) >= 0) {
+          grocery.key = uid; // uid가 빠져서 다시 넣어줌..
+          groceries.push(grocery);
+        }
       }
       console.log(groceries)
       this.groceries = groceries;
