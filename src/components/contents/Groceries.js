@@ -11,11 +11,16 @@ function Groceries(props) {
   
   const { groceriesStore } = props;
   const { groceries, grocery } = groceriesStore;
-  const [ q, setQ ] = useState('');
+  const [ q, setQ ] = useState(spQ);
+  // useEffect(() => {
+  //   // useEffect는 html을 다 읽고 한번 호출됨.
+  //   groceriesStore.groceriesRead('');
+  // }, [groceriesStore]);
   useEffect(() => {
-    // useEffect는 html을 다 읽고 한번 호출됨.
-    groceriesStore.groceriesRead('');
-  }, [groceriesStore]);
+    console.log(spQ)
+    groceriesStore.groceriesRead(spQ);
+    setQ(spQ);
+  }, [groceriesStore, spQ]);
   const modalToggle = function(grocery) {
     console.log(grocery, groceriesStore.grocery)
     grocery && (groceriesStore.grocery = {
