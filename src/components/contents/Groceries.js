@@ -7,8 +7,10 @@ function Groceries(props) {
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const spQ = searchParams.get('q') || '';
+  const orderByKey = searchParams.get('orderByKey') || 'name';
+  const orderByType = searchParams.get('orderByType') || 'asc';
   console.log(spQ, location);
-  
+
   const { groceriesStore } = props;
   const { groceries, grocery } = groceriesStore;
   const [ q, setQ ] = useState(spQ);
@@ -18,9 +20,9 @@ function Groceries(props) {
   // }, [groceriesStore]);
   useEffect(() => {
     console.log(spQ)
-    groceriesStore.groceriesRead(spQ);
+    groceriesStore.groceriesRead(spQ, orderByKey, orderByType);
     setQ(spQ);
-  }, [groceriesStore, spQ]);
+  }, [groceriesStore, spQ, orderByKey, orderByType]);
   const modalToggle = function(grocery) {
     console.log(grocery, groceriesStore.grocery)
     grocery && (groceriesStore.grocery = {
@@ -35,8 +37,15 @@ function Groceries(props) {
   const groceriesSearch = function(event) {
     event.preventDefault();
     // groceriesStore.groceriesRead(q);
-    navigate(`/groceries?q=${q}`);
-  }
+    navigate(`?q=${q}&orderByKey=${orderByKey}&orderByType=${orderByType}`);
+  };
+  const activeOrderBy = (key, type) => {
+    if (key === orderByKey && type === orderByType) {
+      return ' active';
+    } else {
+      return '';
+    }
+  };
   return (
     <>
       <article>
@@ -52,22 +61,22 @@ function Groceries(props) {
                 <th>
                   <span className="title-names">
                     Name
-                    <span className="material-icons active">arrow_drop_up</span>
-                    <span className="material-icons">arrow_drop_down</span>
+                    <span className={`material-icons${activeOrderBy('name', 'asc')}`} onClick={() => navigate(`?q=${q}&orderByKey=name&orderByType=asc`)}>arrow_drop_up</span>
+                    <span className={`material-icons${activeOrderBy('name', 'desc')}`} onClick={() => navigate(`?q=${q}&orderByKey=name&orderByType=desc`)}>arrow_drop_down</span>
                   </span>
                 </th>
                 <th>
                   <span className="title-names">
                     Enter
-                    <span className="material-icons">arrow_drop_up</span>
-                    <span className="material-icons">arrow_drop_down</span>
+                    <span className={`material-icons${activeOrderBy('enter', 'asc')}`} onClick={() => navigate(`?q=${q}&orderByKey=enter&orderByType=asc`)}>arrow_drop_up</span>
+                    <span className={`material-icons${activeOrderBy('enter', 'desc')}`} onClick={() => navigate(`?q=${q}&orderByKey=enter&orderByType=desc`)}>arrow_drop_down</span>
                   </span>
                 </th>
                 <th>
                   <span className="title-names">
                     Expire
-                    <span className="material-icons">arrow_drop_up</span>
-                    <span className="material-icons">arrow_drop_down</span>
+                    <span className={`material-icons${activeOrderBy('expire', 'asc')}`} onClick={() => navigate(`?q=${q}&orderByKey=expire&orderByType=asc`)}>arrow_drop_up</span>
+                    <span className={`material-icons${activeOrderBy('expire', 'desc')}`} onClick={() => navigate(`?q=${q}&orderByKey=expire&orderByType=desc`)}>arrow_drop_down</span>
                   </span>
                 </th>
                 <th>Edit</th>

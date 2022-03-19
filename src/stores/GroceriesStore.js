@@ -2,6 +2,7 @@ import { configure, makeAutoObservable } from 'mobx';
 import moment from 'moment';
 import axios from 'axios';
 import { axiosError } from './common.js';
+import _ from 'lodash';
 
 configure({
   enforceActions: 'never',
@@ -32,7 +33,7 @@ export default class GroceriesStore {
       axiosError(error);
     });
   }
-  groceriesRead(q) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
+  groceriesRead(q, orderByKey, orderByType) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
     axios.get('https://red-react-study-default-rtdb.firebaseio.com/groceries.json').then((response) => {
       console.log('Done groceriesRead', response);
       const groceries = [];
@@ -44,7 +45,7 @@ export default class GroceriesStore {
         }
       }
       console.log(groceries)
-      this.groceries = groceries;
+      this.groceries = _.orderBy(groceries, orderByKey, orderByType);;
     }).catch((error) => {
       axiosError(error);
     });
