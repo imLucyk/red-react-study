@@ -1,8 +1,14 @@
 import { useState, useEffect } from 'react';
 import { inject, observer } from 'mobx-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Groceries(props) {
-  console.log(props)
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const spQ = searchParams.get('q') || '';
+  console.log(spQ, location);
+  
   const { groceriesStore } = props;
   const { groceries, grocery } = groceriesStore;
   const [ q, setQ ] = useState('');
@@ -23,7 +29,8 @@ function Groceries(props) {
   };
   const groceriesSearch = function(event) {
     event.preventDefault();
-    groceriesStore.groceriesRead(q);
+    // groceriesStore.groceriesRead(q);
+    navigate(`/groceries?q=${q}`);
   }
   return (
     <>
