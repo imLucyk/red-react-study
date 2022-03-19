@@ -37,7 +37,7 @@ function Groceries(props) {
   const groceriesSearch = function(event) {
     event.preventDefault();
     // groceriesStore.groceriesRead(q);
-    navigate(`/groceries?q=${q}`);
+    navigate(`?q=${q}&orderByKey=${orderByKey}&orderByType=${orderByType}`);
   };
   const activeOrderBy = (key, type) => {
     if (key === orderByKey && type === orderByType) {
@@ -61,22 +61,22 @@ function Groceries(props) {
                 <th>
                   <span className="title-names">
                     Name
-                    <span className={`material-icons${activeOrderBy('name', 'asc')}`} onClick={() => navigate('?orderByKey=name&orderByType=asc')}>arrow_drop_up</span>
-                    <span className={`material-icons${activeOrderBy('name', 'desc')}`} onClick={() => navigate('?orderByKey=name&orderByType=desc')}>arrow_drop_down</span>
+                    <span className={`material-icons${activeOrderBy('name', 'asc')}`} onClick={() => navigate(`?q=${q}&orderByKey=name&orderByType=asc`)}>arrow_drop_up</span>
+                    <span className={`material-icons${activeOrderBy('name', 'desc')}`} onClick={() => navigate(`?q=${q}&orderByKey=name&orderByType=desc`)}>arrow_drop_down</span>
                   </span>
                 </th>
                 <th>
                   <span className="title-names">
                     Enter
-                    <span className={`material-icons${activeOrderBy('enter', 'asc')}`} onClick={() => navigate('?orderByKey=enter&orderByType=asc')}>arrow_drop_up</span>
-                    <span className={`material-icons${activeOrderBy('enter', 'desc')}`} onClick={() => navigate('?orderByKey=enter&orderByType=desc')}>arrow_drop_down</span>
+                    <span className={`material-icons${activeOrderBy('enter', 'asc')}`} onClick={() => navigate(`?q=${q}&orderByKey=enter&orderByType=asc`)}>arrow_drop_up</span>
+                    <span className={`material-icons${activeOrderBy('enter', 'desc')}`} onClick={() => navigate(`?q=${q}&orderByKey=enter&orderByType=desc`)}>arrow_drop_down</span>
                   </span>
                 </th>
                 <th>
                   <span className="title-names">
                     Expire
-                    <span className={`material-icons${activeOrderBy('expire', 'asc')}`} onClick={() => navigate('?orderByKey=expire&orderByType=asc')}>arrow_drop_up</span>
-                    <span className={`material-icons${activeOrderBy('expire', 'desc')}`} onClick={() => navigate('?orderByKey=expire&orderByType=desc')}>arrow_drop_down</span>
+                    <span className={`material-icons${activeOrderBy('expire', 'asc')}`} onClick={() => navigate(`?q=${q}&orderByKey=expire&orderByType=asc`)}>arrow_drop_up</span>
+                    <span className={`material-icons${activeOrderBy('expire', 'desc')}`} onClick={() => navigate(`?q=${q}&orderByKey=expire&orderByType=desc`)}>arrow_drop_down</span>
                   </span>
                 </th>
                 <th>Edit</th>
