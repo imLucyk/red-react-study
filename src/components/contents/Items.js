@@ -33,7 +33,7 @@ function Items(props) {
     } else {
       return '';
     }
-  }
+  };
   return (
     <article>
       <form className="form-inputs" onSubmit={(event) => {event.preventDefault(); itemsStore.itemsCreate()}}>
