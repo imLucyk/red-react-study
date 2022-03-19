@@ -20,9 +20,9 @@ function Groceries(props) {
   // }, [groceriesStore]);
   useEffect(() => {
     console.log(spQ)
-    groceriesStore.groceriesRead(spQ);
+    groceriesStore.groceriesRead(spQ, orderByKey, orderByType);
     setQ(spQ);
-  }, [groceriesStore, spQ]);
+  }, [groceriesStore, spQ, orderByKey, orderByType]);
   const modalToggle = function(grocery) {
     console.log(grocery, groceriesStore.grocery)
     grocery && (groceriesStore.grocery = {
