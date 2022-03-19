@@ -6,8 +6,8 @@ import { useLocation } from 'react-router-dom';
 function Items(props) {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const orderByKey = searchParams.get('orderByKey') || '';
-  const orderByType = searchParams.get('orderByType') || '';
+  const orderByKey = searchParams.get('orderByKey') || 'name';
+  const orderByType = searchParams.get('orderByType') || 'asc';
   console.log(orderByKey, orderByType)
   const { itemsStore, groceriesStore } = props;
   const { items, item } = itemsStore;
@@ -25,8 +25,8 @@ function Items(props) {
   };
   useEffect(() => {
     // useEffect는 html을 다 읽고 한번 호출됨.
-    itemsStore.itemsRead();
-  }, [itemsStore]);
+    itemsStore.itemsRead(orderByKey, orderByType);
+  }, [itemsStore, orderByKey, orderByType]);
   const activeOrderBy = (key, type) => {
     if (key === orderByKey && type === orderByType) {
       return ' active';
