@@ -22,6 +22,7 @@ function Items(props) {
       await groceriesStore.groceriesDelete(item.key, 'items');
       alert('취소 되었습니다.');
     }
+    itemsStore.itemsRead(orderByKey, orderByType);
   };
   useEffect(() => {
     // useEffect는 html을 다 읽고 한번 호출됨.
@@ -74,7 +75,7 @@ function Items(props) {
           <tbody>
           {items.map((item) => (
             <tr key={item.key}>
-              <td><input type="checkbox" onChange={event => groceriesModify(event, item)} /></td>
+              <td><input type="checkbox" onChange={event => groceriesModify(event, item)} checked={item.checked} /></td>
               <td>{item.name}</td>
               <td>{item.enter}</td>
               <td className="td-expire"><input type="date"

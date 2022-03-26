@@ -33,20 +33,31 @@ export default class ItemsStore {
       axiosError(error);
     });
   }
-  itemsRead(orderByKey, orderByType) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
-    axios.get('https://red-react-study-default-rtdb.firebaseio.com/items.json').then((response) => {
-      console.log('Done itemsRead', response);
+  async itemsRead(orderByKey, orderByType) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
+    try {
+      const response = await axios.get('https://red-react-study-default-rtdb.firebaseio.com/items.json');
+      const response2 = await axios.get('https://red-react-study-default-rtdb.firebaseio.com/groceries.json');
+      console.log('Done itemsRead', response, response2);
       const items = [];
       for (const uid in response.data) {
         const item = response.data[uid];
         item.key = uid; // uid가 빠져서 다시 넣어줌..
+        // groceries에서 동일한 key가 있는지 확인 하는 for문
+        for (const uid2 in response2.data) {
+          const grocery = response2.data[uid2];
+          grocery.key = uid2;
+          item.checked = item.key === grocery.key;
+          if (item.checked === true) {
+            break; // true가 나오면 멈춰라.
+          }
+        }
         items.push(item);
       }
       console.log(items)
       this.items = _.orderBy(items, orderByKey, orderByType);
-    }).catch((error) => {
+    } catch(error) {
       axiosError(error);
-    });
+    }
   }
   itemsDelete(key) {
     axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`).then((response) => {
