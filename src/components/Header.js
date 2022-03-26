@@ -1,6 +1,13 @@
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 
 function Header(props) {
+  const { groceriesStore } = props;
+  const { counter } = groceriesStore;
+  useEffect(() => {
+    groceriesStore.groceriesRead();
+  }, [groceriesStore]);
   return (
     <header>
       <div className="logo">
@@ -14,7 +21,7 @@ function Header(props) {
       </div>
       <div className="menu-groceries">
         <NavLink to="groceries" className={({ isActive }) => isActive ? 'active' : ''}><span className="material-icons">kitchen</span></NavLink>
-        <div><span id="menu-groceries-counter">1</span></div>
+        <div><span id="menu-groceries-counter">{counter}</span></div>
       </div>
       <div className="empty"></div>
       <div>
@@ -32,4 +39,4 @@ function Header(props) {
   )
 }
 
-export default Header;
+export default inject('groceriesStore')(observer(Header));
