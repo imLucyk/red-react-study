@@ -21,17 +21,18 @@ export default class ItemsStore {
     expire: ''
   };
 
-  itemsCreate() {
-    axios.post('https://red-react-study-default-rtdb.firebaseio.com/items.json', {
-      name: this.item.name,
-      enter: moment().format('YYYY-MM-DD'),
-      expire: moment().add(7, 'days').format('YYYY-MM-DD'),
-    }).then((response) => {
+  async itemsCreate() {
+    try {
+      const response = await axios.post('https://red-react-study-default-rtdb.firebaseio.com/items.json', {
+        name: this.item.name,
+        enter: moment().format('YYYY-MM-DD'),
+        expire: moment().add(7, 'days').format('YYYY-MM-DD'),
+      });
       console.log('Done itemsCreate', response);
       this.itemsRead();
-    }).catch((error) => {
+    } catch(error) {
       axiosError(error);
-    });
+    }
   }
   async itemsRead(orderByKey, orderByType) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
     try {
@@ -59,22 +60,23 @@ export default class ItemsStore {
       axiosError(error);
     }
   }
-  itemsDelete(key) {
-    axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`).then((response) => {
+  async itemsDelete(key) {
+    try {
+      const response = await axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`);
       console.log('Done itemsDelete', response);
       this.itemsRead();
-    }).catch((error) => {
+    } catch(error) {
       axiosError(error);
-    });
+    }
   }
-  itemsUpdate(key, item) {
-    axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`, item).then((response) => {
+  async itemsUpdate(key, item) {
+    try {
+      const response = await axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`, item);
       console.log('Done itemsUpdate', response);
       this.itemsRead();
-    }).catch((error) => {
+    } catch(error) {
       axiosError(error);
-    });
+    }
   }
 }
-
 export const itemsStore = new ItemsStore();
