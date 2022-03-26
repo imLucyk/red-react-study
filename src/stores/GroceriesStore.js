@@ -20,6 +20,7 @@ export default class GroceriesStore {
     enter: '',
     expire: ''
   };
+  counter = 0;
 
   groceriesCreate() {
     axios.post('https://red-react-study-default-rtdb.firebaseio.com/groceries.json', {
@@ -37,13 +38,21 @@ export default class GroceriesStore {
     axios.get('https://red-react-study-default-rtdb.firebaseio.com/groceries.json').then((response) => {
       console.log('Done groceriesRead', response);
       const groceries = [];
+      let counter = 0;
       for (const uid in response.data) {
         const grocery = response.data[uid];
         if (!q || grocery.name.indexOf(q) >= 0) {
           grocery.key = uid; // uid가 빠져서 다시 넣어줌..
           groceries.push(grocery);
         }
+        // 오늘 날짜 지난 groceries 갯수 계산 후 counter에 넣기.
+        // grocery의 expire와 오늘 날짜가 필요.
+        console.log(grocery.expire, moment().format('YYYY-MM-DD'))
+        if (grocery.expire <= moment().format('YYYY-MM-DD')) {
+          counter++;
+        }
       }
+      this.counter = counter;
       console.log(groceries)
       this.groceries = _.orderBy(groceries, orderByKey, orderByType);;
     }).catch((error) => {
