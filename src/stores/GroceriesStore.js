@@ -35,7 +35,8 @@ export default class GroceriesStore {
     });
   }
   groceriesRead(q, orderByKey, orderByType) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
-    axios.get('https://red-react-study-default-rtdb.firebaseio.com/groceries.json').then((response) => {
+    const promise = axios.get('https://red-react-study-default-rtdb.firebaseio.com/groceries.json');
+    promise.then((response) => {
       console.log('Done groceriesRead', response);
       const groceries = [];
       let counter = 0;
@@ -54,10 +55,11 @@ export default class GroceriesStore {
       }
       this.counter = counter;
       console.log(groceries)
-      this.groceries = _.orderBy(groceries, orderByKey, orderByType);;
+      this.groceries = _.orderBy(groceries, orderByKey, orderByType);
     }).catch((error) => {
       axiosError(error);
     });
+    return promise;
   }
   groceriesDelete(key, from) {
     return axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/groceries/${key}.json`).then((response) => {
