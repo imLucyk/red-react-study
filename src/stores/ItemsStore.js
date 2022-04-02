@@ -3,6 +3,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { axiosError } from './common.js';
 import _ from 'lodash';
+import { groceriesStore } from './GroceriesStore';
 
 configure({
   enforceActions: 'never',
@@ -37,7 +38,7 @@ export default class ItemsStore {
   async itemsRead(orderByKey, orderByType) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
     try {
       const response = await axios.get('https://red-react-study-default-rtdb.firebaseio.com/items.json');
-      const response2 = await axios.get('https://red-react-study-default-rtdb.firebaseio.com/groceries.json');
+      const response2 = await groceriesStore.groceriesRead();
       console.log('Done itemsRead', response, response2);
       const items = [];
       for (const uid in response.data) {
