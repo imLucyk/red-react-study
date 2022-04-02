@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+import { useLocation } from 'react-router-dom';
 
 function Header(props) {
+  const location = useLocation();
   const { groceriesStore } = props;
   const { counter } = groceriesStore;
   useEffect(() => {
-    groceriesStore.groceriesRead();
-  }, [groceriesStore]);
+    if (location.pathname === '/home') {
+      groceriesStore.groceriesRead();
+    }
+  }, [groceriesStore, location]);
   return (
     <header>
       <div className="logo">
