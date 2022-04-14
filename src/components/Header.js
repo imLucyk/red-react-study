@@ -1,17 +1,42 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { useLocation } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
 
 function Header(props) {
   const location = useLocation();
   const { groceriesStore } = props;
   const { counter } = groceriesStore;
+  const [ firebaseUser, setFirebaseUser ] = useState(null);
+  console.log(firebaseUser);
   useEffect(() => {
     if (location.pathname === '/home') {
       groceriesStore.groceriesRead();
     }
   }, [groceriesStore, location]);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function(firebaseUser) {
+      console.warn(firebaseUser);
+      if (firebaseUser) {
+        setFirebaseUser(firebaseUser);
+        alert(firebaseUser.displayName + '님 반가워요!');
+      } else {
+        setFirebaseUser(null);
+        alert('로그아웃 되었습니다.');
+      }
+    });
+  }, []);
+
+  const googleLogin = function() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider);
+  };
+
+  const googleLogout = function() {
+    firebase.auth().signOut();
+  };
+
   return (
     <header>
       <div className="logo">
@@ -29,13 +54,23 @@ function Header(props) {
       </div>
       <div className="empty"></div>
       <div>
-        <a href="#!" id="menu-a-account" onClick={()=>{}}>
+        <a href="#!" id="menu-a-account" onClick={(event) => {
+          event.preventDefault();
+          document.getElementsByClassName('account-menu')[0].classList.toggle('active'); 
+        }}>
           <span className="material-icons-outlined">account_circle</span>
           <ul className="account-menu">
-            <li>Guest</li>
-            <li>Login</li>
-            <li>Hello 홍길동!</li>
-            <li>Logout</li>
+            {firebaseUser ? (
+              <>
+                <li>Hello {firebaseUser.displayName}!</li>
+                <li onClick={googleLogout}>Logout</li>
+              </>
+            ) : (
+              <>
+                <li>Guest</li>
+                <li onClick={googleLogin}>Login</li>
+              </>
+            )}
           </ul>
         </a>
       </div>
