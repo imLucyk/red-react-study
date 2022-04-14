@@ -1,17 +1,60 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { useLocation } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
 
 function Header(props) {
   const location = useLocation();
   const { groceriesStore } = props;
   const { counter } = groceriesStore;
+  const [ firebaseUser, setFirebaseUser ] = useState(null);
+  console.log(firebaseUser);
   useEffect(() => {
     if (location.pathname === '/home') {
       groceriesStore.groceriesRead();
     }
   }, [groceriesStore, location]);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function(firebaseUser) {
+      console.warn(firebaseUser);
+      if (firebaseUser) {
+        setFirebaseUser(firebaseUser);
+        alert((firebaseUser.displayName || 'Guest') + '님 반가워요!');
+      } else {
+        setFirebaseUser(null);
+        alert('로그아웃 되었습니다.');
+      }
+    });
+  }, []);
+
+  const googleLogin = function() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider);
+  };
+
+  const googleLogout = function() {
+    firebase.auth().signOut();
+  };
+
+  // const emailSignup = function() {
+  //   const email = 'guest@red-react-study.web.app';
+  //   const password = 'guestguest';
+  //   firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+  //     console.error(error);
+  //     alert(error.message);
+  //   });
+  // };
+
+  const emailSignin = function() {
+    const email = 'guest@red-react-study.web.app';
+    const password = 'guestguest';
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      console.error(error);
+      alert(error.message);
+    });
+  };
+
   return (
     <header>
       <div className="logo">
@@ -29,13 +72,23 @@ function Header(props) {
       </div>
       <div className="empty"></div>
       <div>
-        <a href="#!" id="menu-a-account" onClick={()=>{}}>
+        <a href="#!" id="menu-a-account" onClick={(event) => {
+          event.preventDefault();
+          document.getElementsByClassName('account-menu')[0].classList.toggle('active'); 
+        }}>
           <span className="material-icons-outlined">account_circle</span>
           <ul className="account-menu">
-            <li>Guest</li>
-            <li>Login</li>
-            <li>Hello 홍길동!</li>
-            <li>Logout</li>
+            {firebaseUser ? (
+              <>
+                <li>Hello {firebaseUser.displayName || 'Guest'}!</li>
+                <li onClick={googleLogout}>Logout</li>
+              </>
+            ) : (
+              <>
+                <li onClick={emailSignin}>Guest</li>
+                <li onClick={googleLogin}>Login</li>
+              </>
+            )}
           </ul>
         </a>
       </div>
