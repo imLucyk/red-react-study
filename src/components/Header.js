@@ -20,7 +20,7 @@ function Header(props) {
       console.warn(firebaseUser);
       if (firebaseUser) {
         setFirebaseUser(firebaseUser);
-        alert(firebaseUser.displayName + '님 반가워요!');
+        alert((firebaseUser.displayName || 'Guest') + '님 반가워요!');
       } else {
         setFirebaseUser(null);
         alert('로그아웃 되었습니다.');
@@ -35,6 +35,24 @@ function Header(props) {
 
   const googleLogout = function() {
     firebase.auth().signOut();
+  };
+
+  // const emailSignup = function() {
+  //   const email = 'guest@red-react-study.web.app';
+  //   const password = 'guestguest';
+  //   firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+  //     console.error(error);
+  //     alert(error.message);
+  //   });
+  // };
+
+  const emailSignin = function() {
+    const email = 'guest@red-react-study.web.app';
+    const password = 'guestguest';
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      console.error(error);
+      alert(error.message);
+    });
   };
 
   return (
@@ -62,12 +80,12 @@ function Header(props) {
           <ul className="account-menu">
             {firebaseUser ? (
               <>
-                <li>Hello {firebaseUser.displayName}!</li>
+                <li>Hello {firebaseUser.displayName || 'Guest'}!</li>
                 <li onClick={googleLogout}>Logout</li>
               </>
             ) : (
               <>
-                <li>Guest</li>
+                <li onClick={emailSignin}>Guest</li>
                 <li onClick={googleLogin}>Login</li>
               </>
             )}
