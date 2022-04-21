@@ -13,7 +13,7 @@ firebase.initializeApp({
 });
 
 export default class FirebaseStore {
-  firebaseUser = null;
+  firebaseUser = undefined;
   firebaseLoginPromise = null;
 
   constructor() {
@@ -27,14 +27,16 @@ export default class FirebaseStore {
           alert((firebaseUser.displayName || 'Guest') + '님 반가워요!');
           resolve();
         } else {
-          this.firebaseUser = null;
-          alert('로그아웃 되었습니다.');
+          if (this.firebaseUser === undefined) {
+            this.firebaseUser = null;
+          } else {
+            alert('로그아웃 되었습니다.');
+            window.location.href = '/';
+          };
         }
       });
     });
-
   }
-
 }
 
 export const firebaseStore = new FirebaseStore();

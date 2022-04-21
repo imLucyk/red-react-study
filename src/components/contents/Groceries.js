@@ -14,10 +14,7 @@ function Groceries(props) {
   const { groceries, grocery } = groceriesStore;
   const { firebaseLoginPromise } = firebaseStore;
   const [ q, setQ ] = useState(spQ);
-  // useEffect(() => {
-  //   // useEffect는 html을 다 읽고 한번 호출됨.
-  //   groceriesStore.groceriesRead('');
-  // }, [groceriesStore]);
+
   useEffect(() => {
     firebaseLoginPromise.then(() => {
       groceriesStore.groceriesRead(spQ, orderByKey, orderByType);
