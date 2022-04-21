@@ -3,6 +3,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { axiosError } from './common.js';
 import _ from 'lodash';
+import { firebaseStore } from './FirebaseStore.js';
 
 configure({
   enforceActions: 'never',
@@ -23,7 +24,7 @@ export default class GroceriesStore {
   counter = 0;
 
   groceriesCreate() {
-    axios.post('https://red-react-study-default-rtdb.firebaseio.com/groceries.json', {
+    axios.post(`https://red-react-study-default-rtdb.firebaseio.com/${firebaseStore.firebaseUser.uid}/groceries.json`, {
       name: this.grocery.name,
       enter: moment().format('YYYY-MM-DD'),
       expire: moment().add(7, 'days').format('YYYY-MM-DD'),
@@ -35,7 +36,7 @@ export default class GroceriesStore {
     });
   }
   groceriesRead(q, orderByKey, orderByType) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
-    const promise = axios.get('https://red-react-study-default-rtdb.firebaseio.com/groceries.json');
+    const promise = axios.get(`https://red-react-study-default-rtdb.firebaseio.com/${firebaseStore.firebaseUser.uid}/groceries.json`);
     promise.then((response) => {
       console.log('Done groceriesRead', response);
       const groceries = [];
@@ -48,13 +49,11 @@ export default class GroceriesStore {
         }
         // 오늘 날짜 지난 groceries 갯수 계산 후 counter에 넣기.
         // grocery의 expire와 오늘 날짜가 필요.
-        console.log(grocery.expire, moment().format('YYYY-MM-DD'))
         if (grocery.expire <= moment().format('YYYY-MM-DD')) {
           counter++;
         }
       }
       this.counter = counter;
-      console.log(groceries)
       this.groceries = _.orderBy(groceries, orderByKey, orderByType);
     }).catch((error) => {
       axiosError(error);
@@ -62,7 +61,7 @@ export default class GroceriesStore {
     return promise;
   }
   groceriesDelete(key, from) {
-    return axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/groceries/${key}.json`).then((response) => {
+    return axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/${firebaseStore.firebaseUser.uid}/groceries/${key}.json`).then((response) => {
       console.log('Done groceriesDelete', response);
       if (from !== 'items') {
         this.groceriesRead();
@@ -70,7 +69,7 @@ export default class GroceriesStore {
     });
   }
   groceriesUpdate(key, grocery, from) {
-    return axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/groceries/${key}.json`, grocery).then((response) => {
+    return axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/${firebaseStore.firebaseUser.uid}/groceries/${key}.json`, grocery).then((response) => {
       console.log('Done groceriesUpdate', response);
       if (from !== 'items') {
         this.groceriesRead();

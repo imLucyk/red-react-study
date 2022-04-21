@@ -9,8 +9,9 @@ function Items(props) {
   const orderByKey = searchParams.get('orderByKey') || 'name';
   const orderByType = searchParams.get('orderByType') || 'asc';
   console.log(orderByKey, orderByType)
-  const { itemsStore, groceriesStore } = props;
+  const { itemsStore, groceriesStore, firebaseStore } = props;
   const { items, item } = itemsStore;
+  const { firebaseLoginPromise } = firebaseStore;
   const groceriesModify = async function(event, item) {
     console.log(event, item)
     if (event.target.checked) {
@@ -26,8 +27,10 @@ function Items(props) {
   };
   useEffect(() => {
     // useEffect는 html을 다 읽고 한번 호출됨.
-    itemsStore.itemsRead(orderByKey, orderByType);
-  }, [itemsStore, orderByKey, orderByType]);
+    firebaseLoginPromise.then(() => {
+      itemsStore.itemsRead(orderByKey, orderByType);
+    });  
+  }, [itemsStore, orderByKey, orderByType, firebaseLoginPromise]);
   const activeOrderBy = (key, type) => {
     if (key === orderByKey && type === orderByType) {
       return ' active';
@@ -94,4 +97,4 @@ function Items(props) {
   )
 }
 
-export default inject('itemsStore', 'groceriesStore')(observer(Items));
+export default inject('itemsStore', 'groceriesStore', 'firebaseStore')(observer(Items));

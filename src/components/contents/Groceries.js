@@ -9,22 +9,19 @@ function Groceries(props) {
   const spQ = searchParams.get('q') || '';
   const orderByKey = searchParams.get('orderByKey') || 'name';
   const orderByType = searchParams.get('orderByType') || 'asc';
-  console.log(spQ, location);
 
-  const { groceriesStore } = props;
+  const { groceriesStore, firebaseStore } = props;
   const { groceries, grocery } = groceriesStore;
+  const { firebaseLoginPromise } = firebaseStore;
   const [ q, setQ ] = useState(spQ);
-  // useEffect(() => {
-  //   // useEffect는 html을 다 읽고 한번 호출됨.
-  //   groceriesStore.groceriesRead('');
-  // }, [groceriesStore]);
+
   useEffect(() => {
-    console.log(spQ)
-    groceriesStore.groceriesRead(spQ, orderByKey, orderByType);
-    setQ(spQ);
-  }, [groceriesStore, spQ, orderByKey, orderByType]);
+    firebaseLoginPromise.then(() => {
+      groceriesStore.groceriesRead(spQ, orderByKey, orderByType);
+      setQ(spQ);
+    });
+  }, [groceriesStore, spQ, orderByKey, orderByType, firebaseLoginPromise]);
   const modalToggle = function(grocery) {
-    console.log(grocery, groceriesStore.grocery)
     grocery && (groceriesStore.grocery = {
       name: grocery.name,
       enter: grocery.enter,
@@ -152,4 +149,4 @@ function Groceries(props) {
   )
 }
 
-export default inject('groceriesStore')(observer(Groceries));
+export default inject('groceriesStore', 'firebaseStore')(observer(Groceries));

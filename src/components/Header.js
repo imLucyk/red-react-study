@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 import { useLocation } from 'react-router-dom';
@@ -6,27 +6,16 @@ import firebase from 'firebase/compat/app';
 
 function Header(props) {
   const location = useLocation();
-  const { groceriesStore } = props;
+  const { groceriesStore, firebaseStore } = props;
   const { counter } = groceriesStore;
-  const [ firebaseUser, setFirebaseUser ] = useState(null);
-  console.log(firebaseUser);
+  const { firebaseUser, firebaseLoginPromise } = firebaseStore;
   useEffect(() => {
-    if (location.pathname === '/home') {
-      groceriesStore.groceriesRead();
-    }
-  }, [groceriesStore, location]);
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged(function(firebaseUser) {
-      console.warn(firebaseUser);
-      if (firebaseUser) {
-        setFirebaseUser(firebaseUser);
-        alert((firebaseUser.displayName || 'Guest') + '님 반가워요!');
-      } else {
-        setFirebaseUser(null);
-        alert('로그아웃 되었습니다.');
+    firebaseLoginPromise.then(() => {
+      if (location.pathname === '/home') {
+        groceriesStore.groceriesRead();
       }
     });
-  }, []);
+  }, [groceriesStore, location, firebaseLoginPromise]);
 
   const googleLogin = function() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -96,4 +85,4 @@ function Header(props) {
   )
 }
 
-export default inject('groceriesStore')(observer(Header));
+export default inject('groceriesStore', 'firebaseStore')(observer(Header));
