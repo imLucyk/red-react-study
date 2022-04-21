@@ -6,23 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'mobx-react';
 import { itemsStore } from './stores/ItemsStore.js';
 import { groceriesStore } from './stores/GroceriesStore.js';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-firebase.initializeApp({
-  apiKey: "AIzaSyB2vkwxX2wU0bneQSXLiYw8xsrPT7L5nQA",
-  authDomain: "red-react-study.firebaseapp.com",
-  databaseURL: "https://red-react-study-default-rtdb.firebaseio.com",
-  projectId: "red-react-study",
-  storageBucket: "red-react-study.appspot.com",
-  messagingSenderId: "329885294282",
-  appId: "1:329885294282:web:c9bb7fc67fcf96459a5e33"
-});
+import { firebaseStore } from './stores/FirebaseStore.js';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider
       itemsStore={itemsStore}
       groceriesStore={groceriesStore}
+      firebaseStore={firebaseStore}
     >
       <App />
     </Provider>
