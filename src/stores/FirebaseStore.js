@@ -21,7 +21,7 @@ export default class FirebaseStore {
     this.firebaseLoginPromise = new Promise(resolve => {
       firebase.auth().onAuthStateChanged((firebaseUser) => {
         // class 안에서는 화살표 함수를 사용해야만 this에 접근할 수 있다.
-        console.warn(this, firebaseUser);
+        console.log(firebaseUser);
         if (firebaseUser) {
           this.firebaseUser = firebaseUser;
           alert((firebaseUser.displayName || 'Guest') + '님 반가워요!');

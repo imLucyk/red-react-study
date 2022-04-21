@@ -4,6 +4,7 @@ import axios from 'axios';
 import { axiosError } from './common.js';
 import _ from 'lodash';
 import { groceriesStore } from './GroceriesStore';
+import { firebaseStore } from './FirebaseStore.js';
 
 configure({
   enforceActions: 'never',
@@ -24,7 +25,7 @@ export default class ItemsStore {
 
   async itemsCreate() {
     try {
-      const response = await axios.post('https://red-react-study-default-rtdb.firebaseio.com/items.json', {
+      const response = await axios.post(`https://red-react-study-default-rtdb.firebaseio.com/${firebaseStore.firebaseUser.uid}/items.json`, {
         name: this.item.name,
         enter: moment().format('YYYY-MM-DD'),
         expire: moment().add(7, 'days').format('YYYY-MM-DD'),
@@ -38,7 +39,7 @@ export default class ItemsStore {
   async itemsRead(orderByKey, orderByType) { // firebase가 배열에 취약해서, 오브젝트로 받기 때문에 다시 배열로 만들어 주어야 함.
     try {
       const [response, response2] = await Promise.all([
-        axios.get('https://red-react-study-default-rtdb.firebaseio.com/items.json'),
+        axios.get(`https://red-react-study-default-rtdb.firebaseio.com/${firebaseStore.firebaseUser.uid}/items.json`),
         groceriesStore.groceriesRead()
       ]);
       console.log('Done itemsRead', response, response2);
@@ -65,7 +66,7 @@ export default class ItemsStore {
   }
   async itemsDelete(key) {
     try {
-      const response = await axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`);
+      const response = await axios.delete(`https://red-react-study-default-rtdb.firebaseio.com/${firebaseStore.firebaseUser.uid}/items/${key}.json`);
       console.log('Done itemsDelete', response);
       this.itemsRead();
     } catch(error) {
@@ -74,7 +75,7 @@ export default class ItemsStore {
   }
   async itemsUpdate(key, item) {
     try {
-      const response = await axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/items/${key}.json`, item);
+      const response = await axios.patch(`https://red-react-study-default-rtdb.firebaseio.com/${firebaseStore.firebaseUser.uid}/items/${key}.json`, item);
       console.log('Done itemsUpdate', response);
       this.itemsRead();
     } catch(error) {
